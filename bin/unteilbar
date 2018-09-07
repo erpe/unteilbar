@@ -8,7 +8,7 @@ require 'pp'
 
 
 def process(file)
-  if file && File.exists?(file) && file != '-h'
+  if file && File.exists?(file)
     sigs = Unteilbar::Signatures.new(file)
     sigs.to_html
     puts "####  Result in file: signer.html #####"
@@ -27,7 +27,8 @@ OptionParser.new do |opts|
   opts.separator ""
 
   opts.separator "Common options:"
-  opts.on("-f", "--file", "Name the csv file") do |v|
+  opts.on("-f", "--file==FILE", "Name the csv file") do |v|
+    puts "v is: #{v}"
     options[:file]  = v
   end
   opts.on_tail("-h", "--help", "Show this message") do
