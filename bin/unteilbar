@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require 'unteilbar'
+
+require 'optparse'
+require 'ostruct'
+require 'pp'
+
+
+
+class UnteilbarCli
+  def self.parse(args)
+    options = OpenStruct.new
+    options.file_name = nil
+
+    opt_parser = OptionParser.new do |opts|
+      opts.banner = "Usage: unteilbar.rb [options] csv-file"
+      opts.separator ""
+
+      opts.separator "Common options:"
+
+      opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+      end
+    end
+  end
+end
+
+options = UnteilbarCli.parse(ARGV)
+
+file = ARGV[-1]
+
+if File.exists?(file)
+  sigs = Unteilbar::Signatures.new(file)
+  sigs.to_html
+  puts "####  Result in file: signer.html #####"
+  puts "1. copy and paste the content to: https://www.unteilbar.org/wp-admin/post.php?post=3307&action=edit"
+  puts "2. update date at top of page"
+else
+  puts "ERROR: no such file or path: #{file}"
+end
